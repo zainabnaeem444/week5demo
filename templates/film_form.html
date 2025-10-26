@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Edit' if film else 'Add' }} Film - Sakila DB{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h2>{{ 'Edit' if film else 'Add' }} Film</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Title *</label>
+                                <input type="text" class="form-control" id="title" name="title" 
+                                       value="{{ film.title if film else '' }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="release_year" class="form-label">Release Year</label>
+                                <input type="number" class="form-control" id="release_year" name="release_year" 
+                                       value="{{ film.release_year if film else '' }}" min="1901" max="2155">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" id="description" name="description" rows="3">{{ film.description if film else '' }}</textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="language_id" class="form-label">Language *</label>
+                                <select class="form-select" id="language_id" name="language_id" required>
+                                    <option value="">Select Language</option>
+                                    {% for language in languages %}
+                                    <option value="{{ language.language_id }}" 
+                                            {{ 'selected' if film and film.language_id == language.language_id else '' }}>
+                                        {{ language.name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="rating" class="form-label">Rating</label>
+                                <select class="form-select" id="rating" name="rating">
+                                    <option value="G" {{ 'selected' if film and film.rating == 'G' else '' }}>G</option>
+                                    <option value="PG" {{ 'selected' if film and film.rating == 'PG' else '' }}>PG</option>
+                                    <option value="PG-13" {{ 'selected' if film and film.rating == 'PG-13' else '' }}>PG-13</option>
+                                    <option value="R" {{ 'selected' if film and film.rating == 'R' else '' }}>R</option>
+                                    <option value="NC-17" {{ 'selected' if film and film.rating == 'NC-17' else '' }}>NC-17</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="rental_duration" class="form-label">Rental Duration (days)</label>
+                                <input type="number" class="form-control" id="rental_duration" name="rental_duration" 
+                                       value="{{ film.rental_duration if film else 3 }}" min="1" max="365">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="rental_rate" class="form-label">Rental Rate ($)</label>
+                                <input type="number" step="0.01" class="form-control" id="rental_rate" name="rental_rate" 
+                                       value="{{ film.rental_rate if film else 4.99 }}" min="0" max="999.99">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="length" class="form-label">Length (minutes)</label>
+                                <input type="number" class="form-control" id="length" name="length" 
+                                       value="{{ film.length if film else '' }}" min="1" max="999">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="replacement_cost" class="form-label">Replacement Cost ($)</label>
+                                <input type="number" step="0.01" class="form-control" id="replacement_cost" name="replacement_cost" 
+                                       value="{{ film.replacement_cost if film else 19.99 }}" min="0" max="999.99">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="special_features" class="form-label">Special Features</label>
+                                <input type="text" class="form-control" id="special_features" name="special_features" 
+                                       value="{{ film.special_features if film else '' }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('films') }}" class="btn btn-secondary me-md-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Save Film</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

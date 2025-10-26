@@ -1,0 +1,4 @@
+Flask==2.3.3
+PyMySQL==1.1.0
+WTForms==3.0.1
+cryptography==39.0.1
